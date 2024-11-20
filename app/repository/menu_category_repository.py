@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from app.extension import db
 from app.models.menu_category_model import MenuCategoryModel
 
@@ -32,5 +34,5 @@ class MenuCategoryRepository():
 
     @staticmethod
     def delete_menu_category(menu_category):
-        menu_category.deleted_at = MenuCategoryModel.utcnow()
+        menu_category.deleted_at = datetime.utcnow()
         db.session.commit()
