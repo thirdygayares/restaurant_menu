@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from app.extension import db
 from app.models.restaurant_model import RestaurantModel
 
@@ -12,12 +14,12 @@ class RestaurantRepository():
         return restaurant
 
     @staticmethod
-    def get_restaurant_by_id(category_uuid):
-        return RestaurantModel.query.get(category_uuid)
+    def get_restaurant_by_id(restaurant_id):
+        return RestaurantModel.query.get(restaurant_id)
 
     @staticmethod
-    def get_restaurant_by_uuid(category_uuid):
-        return RestaurantModel.query.filter_by(category_uuid=category_uuid).first()
+    def get_restaurant_by_uuid(restaurant_uuid):
+        return RestaurantModel.query.filter_by(restaurant_uuid=restaurant_uuid).first()
 
     @staticmethod
     def get_all():
@@ -32,5 +34,5 @@ class RestaurantRepository():
 
     @staticmethod
     def delete_restaurant(restaurant):
-        restaurant.deleted_at = RestaurantModel.utcnow()
+        restaurant.deleted_at = datetime.utcnow()
         db.session.commit()
