@@ -29,6 +29,16 @@ def get_all_menus():
    menu = MenuRepository.get_all()
    return menu
 
+@menu_blp.route("/restaurant/<string:restaurant_uuid>", methods=['GET'])
+@menu_blp.response(200, MenuSchema(many=True))
+def get_menu_by_restaurant(restaurant_uuid):
+   menu = MenuRepository.get_all_by_restaurant(restaurant_uuid)
+   if not menu:
+      return jsonify({"message":" restaurant not found"}), 404
+   print("menu is")
+   print(menu)
+   return menu
+
 
 @menu_blp.route("/<string:menu_id>", methods=['PUT'])
 @menu_blp.arguments(MenuSchema)
