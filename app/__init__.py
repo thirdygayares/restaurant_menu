@@ -31,6 +31,6 @@ def create_app():
 
     @app.route('/')
     def home():
-        return jsonify({"message": "Hello Brando"})
+        return jsonify({"message": "Hello World"})
 
     return app
