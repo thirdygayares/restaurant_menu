@@ -1,4 +1,5 @@
 from flask import abort, jsonify
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_smorest import Blueprint
 from app.repository.user_repository import UserRepository
 from app.schema.user_schema import UserSchema
@@ -8,6 +9,7 @@ user_blp = Blueprint('users','users', url_prefix='/users', description="Operatio
 @user_blp.route("/", methods=['POST'])
 @user_blp.arguments(UserSchema)
 @user_blp.response(201, UserSchema)
+@jwt_required()
 def create_user(data):
    user = UserRepository.create_user(data)
    return user

@@ -16,8 +16,10 @@ class AuthenticationService:
         if not bcrypt.check_password_hash(user.password, password):
             return None, "Invalid credentials"
 
-        access_token = create_access_token(identity={"id": user.user_uuid, "email": user.email})
-
+        access_token = create_access_token(
+            identity=user.user_uuid,
+            additional_claims={"email": user.email, "role": user.role}
+        )
         return {
             "access_token": access_token,
         }, None
