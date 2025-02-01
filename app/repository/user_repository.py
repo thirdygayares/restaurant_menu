@@ -1,14 +1,16 @@
 from datetime import datetime
 
+from mako.filters import decode
 from sqlalchemy import delete
 
-from app.extension import db
+from app.extension import db, bcrypt
 from app.models.user_model import UserModel
 
 class UserRepository:
 
     @staticmethod
     def create_user(data):
+        data["password"] = bcrypt.generate_password_hash(data["password"]).decode("utf-8")
         user = UserModel(**data)
         db.session.add(user)
         db.session.commit()

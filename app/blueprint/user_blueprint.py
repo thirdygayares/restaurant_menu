@@ -1,4 +1,5 @@
 from flask import abort, jsonify
+from flask_jwt_extended import jwt_required
 from flask_smorest import Blueprint
 from app.repository.user_repository import UserRepository
 from app.schema.user_schema import UserSchema
@@ -14,6 +15,7 @@ def create_user(data):
 
 @user_blp.route("/<string:user_id>", methods=['GET'])
 @user_blp.response(200, UserSchema)
+
 def get_user_by_id(user_id):
    user = UserRepository.get_user_by_uuid(user_id)
    if not user:
@@ -22,10 +24,10 @@ def get_user_by_id(user_id):
 
 @user_blp.route("/", methods=['GET'])
 @user_blp.response(200, UserSchema(many=True))
+@jwt_required
 def get_all_users():
    user = UserRepository.get_all()
    return user
-
 
 @user_blp.route("/<string:user_id>", methods=['PUT'])
 @user_blp.arguments(UserSchema)
@@ -41,6 +43,7 @@ def update_user(data, user_id):
 
 @user_blp.route("/<string:user_id>", methods=["DELETE"])
 @user_blp.response(204)
+@jwt_required
 def delete_user(user_id):
    user = UserRepository.get_user_by_uuid(user_id)
 
@@ -48,12 +51,3 @@ def delete_user(user_id):
       abort(404, description="User Not Found")
    UserRepository.delete_user(user)
    return ''
-
-
-
-
-
-
-
-
-
